@@ -43,6 +43,12 @@ npm install
 npm run dev
 ```
 
+Optional: create `frontend/.env` to override the backend API URL:
+
+```bash
+VITE_API_URL=http://localhost:5000/api
+```
+
 ### 3. Open the app
 
 - Frontend: http://localhost:5173

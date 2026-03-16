@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+const defaultBaseURL = import.meta.env.DEV
+  ? 'http://localhost:5000/api'
+  : 'https://vercel-backend-zbs3.onrender.com/api';
+
 const api = axios.create({
-  baseURL: 'https://vercel-backend-zbs3.onrender.com/api',
+  baseURL: import.meta.env.VITE_API_URL || defaultBaseURL,
   headers: { 'Content-Type': 'application/json' }
 });
 
