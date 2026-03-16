@@ -7,13 +7,23 @@ const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
 
 const app = express();
+const allowedOrigins = new Set([
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+  'https://vercel-frontend-kmbf.vercel.app',
+]);
+
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173',
-      'http://localhost:3000',
-      'https://vercel-frontend-kmbf.vercel.app',
-    ],
+    origin(origin, cb) {
+      // allow non-browser tools (curl/postman) with no Origin header
+      if (!origin) return cb(null, true);
+      if (allowedOrigins.has(origin)) return cb(null, true);
+      if (origin.endsWith('.vercel.app')) return cb(null, true);
+      return cb(new Error(`CORS blocked for origin: ${origin}`), false);
+    },
     credentials: true,
   })
 );
